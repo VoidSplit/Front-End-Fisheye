@@ -4,7 +4,8 @@ function photographerFactory(data) {
     const picture = `assets/photographers/photographers ID Photos/${portrait}`;
     function getUserCardDOM() {
         const article = document.createElement( 'article' );
-        article.classList.add('comp', 'photograph-profile')
+        article.classList.add('comp', 'photograph-profile');
+        article.setAttribute('name', name)
 
         const photoWrapper = document.createElement( 'div' )
         photoWrapper.classList.add('photo')

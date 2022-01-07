@@ -11,33 +11,9 @@ async function loadJSON(path, success, error) {
     };
     xhr.open("GET", path, true);
     xhr.send();
-}/*
-async function getPhotographers() {
-    loadJSON('data/photographers.json', function(data) {
-        //console.log(data.photographers);
-        photographers = data.photographers;
-        return data.photographers;
-    }, function(xhr) {
-        console.error(xhr);
-    });
-    console.log(photographers)
-    return photographers;
-    /*return ({
-        photographers: [...photographers, ...photographers, ...photographers]
-    })
-}*/
-/*function getPhotographers() {
-    try {
-        const data = loadJSON('data/photographers.json');
-        return data.photographers;
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
-}*/
+}
 function getPhotographers() {
     return new Promise((resolve, reject) => loadJSON('data/photographers.json', function (data) {
-        //console.log(data.photographers);
         photographers = data.photographers;
         resolve(photographers);
     }, function (xhr) {
@@ -51,12 +27,17 @@ async function displayData(photographers) {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
         photographersSection.appendChild(userCardDOM);
+        userCardDOM.addEventListener('click', function(e) {
+            e.preventDefault()
+            var url = new URL(document.location + 'photographer.html');
+            url.searchParams.set('name', userCardDOM.getAttribute('name'));
+            location.replace(url)
+        });
     });
 };
 async function init() {
     // Récupère les datas des photographes
     const photographers = await getPhotographers();
-    console.log(photographers)
     displayData(photographers);
 };
 
