@@ -1,0 +1,84 @@
+@import url("photographer.css");
+@import url("errors.css");
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DM Sans', sans-serif;
+}
+
+
+header {
+    display: flex;
+    align-items: center;
+    padding: 40px 100px;
+}
+header .logo {
+    height: 50px;
+    cursor: pointer;
+}
+header .logo img {
+    object-fit: contain;
+    height: 100%;
+}
+header span {
+    margin: 0 0 0 auto;
+    color: #901c1c;
+    font-size: 36px;
+    font-weight: 400;
+}
+#photographerList {
+    display: grid;
+    /*grid-template-columns: repeat(3, 1fr);*/
+    
+    justify-content: center;
+    grid-template-columns: repeat(auto-fill, minmax(400px, calc(100% / 3)));
+    height: calc(100vh - 130px);
+}
+#photographerList article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#photographerList article p {
+    font-family: DM Sans;
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: 0em;
+    text-align: center;
+
+}
+#photographerList article img {
+    height: 200px;
+    width: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+#photographerList article .name {
+    color: #D3573C;
+}
+#photographerList article .location {
+    color: #901C1C;
+    font-size: 13px;
+    line-height: 17px;
+    
+}
+#photographerList article .tagline {
+    color: #000;
+    font-size: 10px;
+    line-height: 13px;
+    
+}
+#photographerList article .tarif {
+    color: #757575;
+    font-size: 9px;
+    line-height: 12px;
+
+}
+#photographerList article .name {
+    color: #D3573C;
+    font-size: 36px;
+    line-height: 47px;
+}

@@ -21,24 +21,25 @@ function getPhotographers() {
     })
     );
 }
-async function displayData(photographers) {
-    const photographersSection = document.querySelector(".photographer_section");
-    photographers.forEach((photographer) => {
+async function displayData(data) {
+    let section = document.getElementById('photographerList');
+    data.forEach(photographer => {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
-        photographersSection.appendChild(userCardDOM);
+        section.appendChild(userCardDOM);
         userCardDOM.addEventListener('click', function(e) {
-            e.preventDefault()
+            e.preventDefault();
+            console.log('clic')
             var url = new URL(document.location + 'photographer.html');
-            url.searchParams.set('name', userCardDOM.getAttribute('name'));
+            url.searchParams.set('id', photographer.id);
             location.replace(url)
-        });
+        })
     });
-};
+}
 async function init() {
     // Récupère les datas des photographes
     const photographers = await getPhotographers();
     displayData(photographers);
-};
+}
 
 init();
