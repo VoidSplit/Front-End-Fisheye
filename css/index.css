@@ -22,7 +22,7 @@ header .logo img {
     object-fit: contain;
     height: 100%;
 }
-header span {
+header h1 {
     margin: 0 0 0 auto;
     color: #901c1c;
     font-size: 36px;
@@ -41,6 +41,7 @@ header span {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 328px;
 }
 #photographerList article p {
     font-family: DM Sans;
@@ -55,9 +56,6 @@ header span {
     width: 200px;
     object-fit: cover;
     border-radius: 50%;
-}
-#photographerList article .name {
-    color: #D3573C;
 }
 #photographerList article .location {
     color: #901C1C;
@@ -81,4 +79,22 @@ header span {
     color: #D3573C;
     font-size: 36px;
     line-height: 47px;
+    font-weight: normal;
+}
+#photographerList article a {
+    text-align: center;
+    text-decoration: none;
+}
+
+@media only screen and (max-width : 768px) {
+    header {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 40px 0;
+    }
+    header h1 {
+        margin: 0;
+    }
 }

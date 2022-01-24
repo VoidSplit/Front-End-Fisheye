@@ -27,13 +27,6 @@ async function displayData(data) {
         const photographerModel = photographerFactory(photographer);
         const userCardDOM = photographerModel.getUserCardDOM();
         section.appendChild(userCardDOM);
-        userCardDOM.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('clic')
-            var url = new URL(document.location + 'photographer.html');
-            url.searchParams.set('id', photographer.id);
-            location.replace(url)
-        })
     });
 }
 async function init() {

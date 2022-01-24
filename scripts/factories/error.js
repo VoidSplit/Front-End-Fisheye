@@ -9,7 +9,7 @@ function getErrorDOM() {
     content.classList.add('error-content')
 
     span.textContent = "Oups,";
-    p.textContent = "il semblerait que le photographe que vous cherchez ai perdu son appareil photo...";
+    p.textContent = "il semblerait que le photographe que vous cherchez ait perdu son appareil photo...";
 
     content.appendChild(span)
     content.appendChild(p)

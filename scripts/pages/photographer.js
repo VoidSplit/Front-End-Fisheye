@@ -32,16 +32,18 @@ async function generateDOM(infos, filter) {
     document.getElementById('page-content').innerHTML += `
     <div class="banner">
         <div class="informations">
-            <div class="name">${infos[0].name}</div>
-            <div class="location">${infos[0].city}, ${infos[0].country}</div>
-            <div class="tagline">${infos[0].tagline}</div>
+            <div class="name" tabindex="2">${infos[0].name}</div>
+            <div class="tab_sect" tabindex="3">
+                <div class="location">${infos[0].city}, ${infos[0].country}</div>
+                <div class="tagline">${infos[0].tagline}</div>
+            </div>
         </div>
         <div class="button-wrapper">
-            <button>Contactez-moi</button>
+            <button onclick="openContactModal('${infos[0].name}')" tabindex="4">Contactez-moi</button>
         </div>
         <div class="profil">
             <div class="inner">
-                <img src="assets/photographers/Photographers ID Photos/${infos[0].portrait}" alt="Photo de profil de ${infos[0].name}" srcset="assets/photographers/Photographers ID Photos/${infos[0].portrait}">
+                <img tabindex="5" src="assets/photographers/Photographers ID Photos/${infos[0].portrait}" alt="Photo de profil de ${infos[0].name}" srcset="assets/photographers/Photographers ID Photos/${infos[0].portrait}">
             </div>
         </div>
     </div>
@@ -49,15 +51,15 @@ async function generateDOM(infos, filter) {
     // generate filters
     document.getElementById('page-content').innerHTML += `
     <div class="filter-wrapper">
-            <p>Trier par</p>
+            <p tabindex="7">Trier par</p>
             <div class="dropdown">
-                <div class="view" id="popularity">
+                <div class="view" id="popularity" tabindex="0">
                     <p>Popularité</p>
                     <div class="icon"><i class="fas fa-angle-up"></i></div>
                 </div>
                 <div class="content">
-                    <div class="item" id="date">Date</div>
-                    <div class="item" id="name">Titre</div>
+                    <div class="item" id="date" tabindex="0">Date</div>
+                    <div class="item" id="name" tabindex="0">Titre</div>
                 </div>
             </div>
         </div>
@@ -68,7 +70,7 @@ async function generateDOM(infos, filter) {
         numberoflikes = numberoflikes + parseInt(post.likes)
     })
     document.getElementById('page-content').innerHTML += `
-    <div class="tarifs">
+    <div class="tarifs" tabindex="6">
         <div class="likes">
             <span class="count">${numberoflikes}</span>
             <i class="fas fa-heart"></i>
@@ -79,7 +81,7 @@ async function generateDOM(infos, filter) {
     // generate gallery
     document.getElementById('page-content').innerHTML += `<div id="gallery"></div>`
     refreshGallery(infos, filter)
-    
+    //openContactModal(infos[0].name)
 }
 function refreshGallery(infos, filter) {
     document.getElementById('gallery').innerHTML = '';
@@ -101,9 +103,20 @@ function refreshGallery(infos, filter) {
     } 
     infos[1].forEach(post => {
         sessionStorage.setItem(post.id, post.likes)
-        const dom = getGalleryDOM(post, infos[1])
+        const dom = getGalleryDOM(post, infos[1], infos[0])
         document.getElementById('gallery').appendChild(dom)
     })
+}
+function refreshCounter(list) {
+    let numberoflikes = 0;
+    if(list) {
+        list.forEach(post => {
+            numberoflikes = numberoflikes + parseInt(post.likes)
+        })
+        document.querySelectorAll('.count')[0].textContent = numberoflikes+document.querySelectorAll('i.liked').length;
+    }
+    
+    
 }
 function removeParams(sParam) {
     var url = window.location.href.split('?')[0]+'?';
@@ -115,6 +128,41 @@ function removeParams(sParam) {
         }
     }
     return url.substring(0,url.length-1);
+}
+function openContactModal(name) {
+    console.log(document.getElementById('page-content'))
+    const modal = document.createElement('div')
+    modal.classList.add('form-modal')
+    modal.innerHTML = `
+    <form>
+        <div class="top-wrapper">
+            <div class="title">Contactez-moi <br/> ${name}</div>
+            <div class="close">
+                <div onclick="closeContactModal()">
+                    <img src="assets/icons/close.svg">
+                </div>
+            </div>
+        </div>
+        <div class="inputs">
+            <label for="firstName">Prénom</label>
+            <input type="text" id="firstname">
+            <label for="lastName">Nom</label>
+            <input type="text" id="lastName">
+            <label for="email">Email</label>
+            <input type="email" id="email">
+            <label for="msg">Votre message</label>
+            <textarea id="msg"></textarea>
+        </div>
+        <div class="submit">
+            <div onclick="closeContactModal()">Envoyer</div>
+        </submit>
+    </form>
+    `
+    document.getElementById('page-content').appendChild(modal)
+    console.log(modal)
+}
+function closeContactModal() {
+    document.querySelectorAll('#page-content')[0].removeChild(document.querySelectorAll('.form-modal')[0])
 }
 async function loadPost(postId, postList) {
     if(postList.filter(post => post.id == postId).length !== 0) {
@@ -172,6 +220,9 @@ async function loadPost(postId, postList) {
         content.appendChild(navigationRight)
         navigationRight.appendChild(angleRight)
         navigationRight.appendChild(close)
+        angleLeft.setAttribute("tabindex", "1")
+        angleRight.setAttribute("tabindex", "2")
+        close.setAttribute("tabindex", "3")
         
         document.getElementById('page-content').appendChild(lightbox)
         let url = new URL(window.location);
@@ -181,6 +232,15 @@ async function loadPost(postId, postList) {
     }
 }
 function getFilters(infos) {
+    
+    document.getElementById('name').addEventListener('keydown', (event) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            let url = new URL(window.location);
+            url.searchParams.set('filter', "name");
+            window.history.pushState({}, '', url);
+            refreshGallery(infos, "name")
+        }
+    });
     document.getElementById('name').addEventListener('click', function(e) {
         e.preventDefault(e)
         let url = new URL(window.location);
@@ -188,6 +248,15 @@ function getFilters(infos) {
         window.history.pushState({}, '', url);
         refreshGallery(infos, "name")
     })
+
+    document.getElementById('popularity').addEventListener('keydown', (event) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            let url = new URL(window.location);
+            url.searchParams.set('filter', "popularity");
+            window.history.pushState({}, '', url);
+            refreshGallery(infos, "popularity")
+        }
+    });
     document.getElementById('popularity').addEventListener('click', function(e) {
         e.preventDefault(e)
         let url = new URL(window.location);
@@ -195,6 +264,15 @@ function getFilters(infos) {
         window.history.pushState({}, '', url);
         refreshGallery(infos, "popularity")
     })
+
+    document.getElementById('date').addEventListener('keydown', (event) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+            let url = new URL(window.location);
+            url.searchParams.set('filter', "date");
+            window.history.pushState({}, '', url);
+            refreshGallery(infos, "date")
+        }
+    });
     document.getElementById('date').addEventListener('click', function(e) {
         e.preventDefault(e)
         let url = new URL(window.location);
