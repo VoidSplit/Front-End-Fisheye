@@ -15,5 +15,6 @@ function getErrorDOM() {
     content.appendChild(p)
     errorPage.appendChild(content)
     
+    //retourne le DOM de la page d'erreur en cas d'id incorrect
     return (errorPage);
 }

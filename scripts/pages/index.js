@@ -13,6 +13,7 @@ async function loadJSON(path, success, error) {
     xhr.send();
 }
 function getPhotographers() {
+    // Récupere la liste des photographes récuperée dans le fichier json de l'api 
     return new Promise((resolve, reject) => loadJSON('data/photographers.json', function (data) {
         photographers = data.photographers;
         resolve(photographers);
@@ -22,6 +23,7 @@ function getPhotographers() {
     );
 }
 async function displayData(data) {
+    // on récupère le parentNode pour y ajouter le dom 
     let section = document.getElementById('photographerList');
     data.forEach(photographer => {
         const photographerModel = photographerFactory(photographer);
@@ -32,6 +34,7 @@ async function displayData(data) {
 async function init() {
     // Récupère les datas des photographes
     const photographers = await getPhotographers();
+    // Affiche les données récupérées plus tôt
     displayData(photographers);
 }
 

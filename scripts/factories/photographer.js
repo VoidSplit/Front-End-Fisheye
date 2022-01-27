@@ -7,6 +7,7 @@ function photographerFactory(data) {
         const linkWrapper = document.createElement('a')
         const img = document.createElement('img');
         img.setAttribute("src", picture)
+        img.setAttribute("srcset", picture)
         const photographername = document.createElement('h2')
         photographername.classList.add('name')
         photographername.textContent = name;
@@ -36,13 +37,13 @@ function photographerFactory(data) {
         informations.appendChild(photographertagline)
         informations.appendChild(tarif)
         
+        // retourne le DOM des cartes photographes de la page d'accueil
         return (article);
     }
     
-    return { name, picture, city, country, tagline, price, getUserCardDOM }
+    return { name, picture, city, country, tagline, price, getUserCardDOM } // retourne les informations nécessaires et le dom des photographes
 }
 function getGalleryDOM(data, list, photographer) {
-    //console.log(photographer)
     if(!data.video) {
         const post = document.createElement('div')
         const img = document.createElement('img')
@@ -123,6 +124,7 @@ function getGalleryDOM(data, list, photographer) {
         inner.appendChild(likes)
         likes.appendChild(count)
         likes.appendChild(icon)
+        // retourne un post avec une image
         return (post);
     } else {
         const post = document.createElement('div')
@@ -205,6 +207,7 @@ function getGalleryDOM(data, list, photographer) {
         inner.appendChild(likes)
         likes.appendChild(count)
         likes.appendChild(icon)
+        // retourne un post avec une video
         return (post);
     }
 }
